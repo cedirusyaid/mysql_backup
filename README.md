@@ -62,5 +62,5 @@ Proyek ini menggunakan lisensi MIT. Silakan gunakan dan modifikasi sesuai kebutu
 
 ---
 
-Dikembangkan oleh: [Nama Anda]
+Dikembangkan oleh: cedi rusyaid
 
