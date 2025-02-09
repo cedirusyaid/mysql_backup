@@ -1,66 +1,62 @@
-# Backup MySQL Database Script
+# Monitoring Server
 
-## Deskripsi
-Script ini digunakan untuk melakukan backup database MySQL secara otomatis setiap minggu. Selain itu, script juga memiliki fitur penghapusan backup lama dan notifikasi ke grup Telegram.
+Script ini digunakan untuk memantau status server dan mengirimkan laporan melalui Telegram.
 
 ## Fitur
-- Backup database MySQL secara otomatis.
-- Penyimpanan backup dalam folder mingguan.
-- Penghapusan backup yang lebih lama dari dua bulan.
-- Notifikasi ke Telegram dengan informasi hostname, database yang dibackup, dan ukuran file backup.
 
-## Persyaratan
-- Sistem operasi berbasis Linux.
-- MySQL server.
-- Akses ke `mysqldump`.
-- Bot Telegram dengan token API.
-- `cron` untuk penjadwalan otomatis.
+- Menampilkan uptime server
+- Menampilkan penggunaan CPU dan jumlah core
+- Menampilkan penggunaan RAM
+- Menampilkan status koneksi internet
+- Menampilkan status layanan tertentu (dikonfigurasi melalui `.env`)
+- Menampilkan daftar user yang sedang login
+- Menampilkan penggunaan disk hanya dari perangkat `/dev/`
+- Menampilkan jumlah koneksi HTTP/HTTPS yang aktif (untuk server Apache2)
 
-## Instalasi
-1. Clone repository:
+## Instalasi dan Penggunaan
+
+1. **Clone Repository**
+
    ```bash
-   git clone https://github.com/username/repo.git
-   cd repo
-   ```
-2. Edit konfigurasi dalam script `backup.sh`:
-   - **MYSQL_USER** → Nama pengguna MySQL.
-   - **MYSQL_PASSWORD** → Kata sandi MySQL.
-   - **BACKUP_ROOT** → Lokasi penyimpanan backup.
-   - **TELEGRAM_BOT_TOKEN** → Token bot Telegram.
-   - **TELEGRAM_CHAT_ID** → ID grup Telegram.
-   - **DATABASES** → Daftar database yang akan di-backup.
-3. Beri izin eksekusi pada script:
-   ```bash
-   chmod +x backup.sh
+   git clone https://github.com/username/monitor_server.git
+   cd monitor_server
    ```
 
-## Penggunaan
-Jalankan script secara manual:
-```bash
-./backup.sh
-```
-Atau jadwalkan dengan cron job agar berjalan otomatis setiap minggu:
-```bash
-crontab -e
-```
-Tambahkan baris berikut untuk menjalankan backup setiap minggu:
-```bash
-0 2 * * 0 /path/to/backup.sh
-```
+2. **Buat dan atur file ****`.env`**
+   Buat file `.env` di dalam `/opt/monitor_server/` dengan isi seperti berikut:
 
-## Notifikasi Telegram
-Setelah backup selesai, bot Telegram akan mengirim pesan berisi:
-- **Hostname server**
-- **Daftar database yang dibackup**
-- **Ukuran setiap backup**
+   ```ini
+   TELEGRAM_BOT_TOKEN=your_bot_token
+   TELEGRAM_CHAT_ID=your_chat_id
+   SERVICE_LIST="apache2 mysql ssh"
+   ```
 
-## Penghapusan Backup Lama
-Script akan menghapus backup yang lebih lama dari dua bulan untuk menghemat penyimpanan.
+3. **Berikan izin eksekusi pada script**
+
+   ```bash
+   chmod +x monitoring.sh
+   ```
+
+4. **Jalankan script secara manual**
+
+   ```bash
+   ./monitoring.sh
+   ```
+
+5. **Menjadwalkan eksekusi otomatis (Opsional)**
+   Tambahkan ke crontab untuk menjalankan script secara berkala:
+
+   ```bash
+   crontab -e
+   ```
+
+   Tambahkan baris berikut untuk menjalankan setiap 5 menit:
+
+   ```
+   */5 * * * * root /opt/monitor_server/monitoring.sh
+   ```
 
 ## Lisensi
-Proyek ini menggunakan lisensi MIT. Silakan gunakan dan modifikasi sesuai kebutuhan.
 
----
-
-Dikembangkan oleh: cedi rusyaid
+Script ini dirilis dengan lisensi MIT. Silakan gunakan dan modifikasi sesuai kebutuhan.
 
